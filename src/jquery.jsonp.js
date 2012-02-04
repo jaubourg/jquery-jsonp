@@ -1,5 +1,5 @@
 /*
- * jQuery JSONP Core Plugin 2.2.0 (2010-12-11)
+ * jQuery JSONP Core Plugin 2.2.1 (2012-02-04)
  *
  * http://code.google.com/p/jquery-jsonp/
  *
