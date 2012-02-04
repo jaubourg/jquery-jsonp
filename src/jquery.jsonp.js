@@ -212,8 +212,8 @@
 
 			;
 
-			// IE 6 to 8: event/htmlFor trick
-			if ( !( STR_ON_LOAD in script ) && ( STR_ON_READY_STATE_CHANGE in script ) ) {
+			// Internet Explorer: event/htmlFor trick
+			if ( STR_ON_READY_STATE_CHANGE in script ) {
 
 				script.htmlFor = script.id;
 				script.event = STR_ON_CLICK;
