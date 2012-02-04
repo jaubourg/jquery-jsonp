@@ -223,7 +223,7 @@
 			script[ STR_ON_LOAD ] = script[ STR_ON_ERROR ] = script[ STR_ON_READY_STATE_CHANGE ] = function ( result ) {
 
 				// Test readyState if it exists
-				if ( !script[ STR_READY_STATE ] || /loaded|complete/.test( script[ STR_READY_STATE ] ) ) {
+				if ( !script[ STR_READY_STATE ] || !/i/.test( script[ STR_READY_STATE ] ) ) {
 
 					try {
 
