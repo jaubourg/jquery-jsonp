@@ -1,1 +1,1 @@
-var bob = 33;
+window.bob = 33;
