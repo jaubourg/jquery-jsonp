@@ -76,3 +76,29 @@ test( "error (callback not called)", function() {
 		}
 	});
 });
+
+test( "stress test", function() {
+
+	var num = 20,
+		count = num;
+
+	expect( num );
+	stop();
+
+	for ( ; num ; num-- ) {
+		$.jsonp({
+			url: "http://gdata.youtube.com/feeds/api/users/julianaubourg?callback=?",
+			success: function() {
+				ok( true, "success" );
+			},
+			error: function() {
+				ok( false, "error" );
+			},
+			complete: function() {
+				if ( !( --count ) ) {
+					start();
+				}
+			}
+		});
+	}
+});
