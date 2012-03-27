@@ -69,8 +69,8 @@
 			git: "http://code.jquery.com/jquery-git.js"
 		};
 
-	params.jQuery = params.jQuery || "1";
-	loadScript( jQueries[ params.jQuery ] || "https://ajax.googleapis.com/ajax/libs/jquery/" + params.jQuery + "/jquery.min.js" );
+	params.jquery = params.jquery || "1";
+	loadScript( jQueries[ params.jquery ] || "https://ajax.googleapis.com/ajax/libs/jquery/" + params.jquery + "/jquery.min.js" );
 	loadScript( "../src/jquery.jsonp.js" );
 	loadScript( "qunit/qunit/qunit.js" );
 	loadScript( "./unit.js" );
