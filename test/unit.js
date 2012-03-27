@@ -88,11 +88,14 @@ if ( $.Deferred ) {
 
 	test( "promise - success", function() {
 		stop();
-		expect( 1 );
+		expect( 2 );
 		$.jsonp({
 			url: "http://gdata.youtube.com/feeds/api/users/julianaubourg?callback=?",
 			data: {
 				alt: "json-in-script"
+			},
+			success: function() {
+				ok( true, "Success (options)" );
 			},
 			complete: function() {
 				start();
@@ -106,11 +109,14 @@ if ( $.Deferred ) {
 
 	test( "promise - error (HTTP Code)", function() {
 		stop();
-		expect( 1 );
+		expect( 2 );
 		$.jsonp({
 			url: "http://gdata.youtube.com/feeds/api/users/hgfusyggbvbdbrfvurgbirhtiytjrhjsrhk66?callback=?",
 			data: {
 				alt: "json-in-script"
+			},
+			error: function() {
+				ok( true, "Error (options)" );
 			},
 			complete: function() {
 				start();
@@ -124,7 +130,7 @@ if ( $.Deferred ) {
 
 	test( "promise - error (Syntax Error)", function() {
 		stop();
-		expect( 2 );
+		expect( 3 );
 		var oldOnError = window.onerror;
 		window.onerror = function() {
 			ok( true, "Syntax Error Thrown" );
@@ -133,6 +139,9 @@ if ( $.Deferred ) {
 		$.jsonp({
 			url: "data/syntax-error.js",
 			cache: true,
+			error: function() {
+				ok( true, "Error (options)" );
+			},
 			complete: function() {
 				window.onerror = oldOnError;
 				start();
@@ -146,10 +155,13 @@ if ( $.Deferred ) {
 
 	test( "promise - error (callback not called)", function() {
 		stop();
-		expect( 2 );
+		expect( 3 );
 		$.jsonp({
 			url: "data/no-callback.js",
 			cache: true,
+			error: function() {
+				ok( true, "Error (options)" );
+			},
 			complete: function() {
 				strictEqual( window.bob, 33, "script was executed" );
 				window.bob = false;
