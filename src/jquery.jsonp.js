@@ -1,9 +1,9 @@
 /*
- * jQuery JSONP Core Plugin 2.2.1 (2012-02-04)
+ * jQuery JSONP Core Plugin 2.3.0 (2012-03-27)
  *
  * http://code.google.com/p/jquery-jsonp/
  *
- * Copyright (c) 2011 Julian Aubourg
+ * Copyright (c) 2012 Julian Aubourg
  *
  * This document is licensed as free software under the terms of the
  * MIT License: http://www.opensource.org/licenses/mit-license.php
@@ -56,6 +56,8 @@
 
 		// Window
 		win = window,
+		// Deferred
+		Deferred = $.Deferred,
 		// Head element
 		head = $( "head" )[ 0 ] || document.documentElement,
 		// First child
@@ -96,7 +98,9 @@
 		xOptions = $.extend( {} , xOptionsDefaults , xOptions );
 
 		// References to xOptions members (for better minification)
-		var completeCallback = xOptions.complete,
+		var successCallback = xOptions.success,
+			errorCallback = xOptions.error,
+			completeCallback = xOptions.complete,
 			dataFilter = xOptions.dataFilter,
 			callbackParameter = xOptions.callbackParameter,
 			successCallbackName = xOptions.callback,
@@ -122,6 +126,15 @@
 			script,
 			scriptAfter,
 			timeoutTimer;
+
+		// If we have Deferreds:
+		// - substitute callbacks
+		// - promote xOptions to a promise
+		Deferred && Deferred(function( defer ) {
+			defer.done( successCallback ).fail( errorCallback );
+			successCallback = defer.resolve;
+			errorCallback = defer.reject;
+		}).promise( xOptions );
 
 		// Create the abort method
 		xOptions.abort = function() {
@@ -160,7 +173,7 @@
 				// Apply the data filter if provided
 				dataFilter && ( json = dataFilter.apply( xOptions , [ json ] ) );
 				// Call success then complete
-				callIfDefined( xOptions.success , xOptions , [ json , STR_SUCCESS ] );
+				callIfDefined( successCallback , xOptions , [ json , STR_SUCCESS ] );
 				callIfDefined( completeCallback , xOptions , [ xOptions , STR_SUCCESS ] );
 
 			}
@@ -176,7 +189,7 @@
 				// If pure error (not timeout), cache if needed
 				pageCacheFlag && type != STR_TIMEOUT && ( pageCache[ url ] = type );
 				// Call error then complete
-				callIfDefined( xOptions.error , xOptions , [ xOptions , type ] );
+				callIfDefined( errorCallback , xOptions , [ xOptions , type ] );
 				callIfDefined( completeCallback , xOptions , [ xOptions , type ] );
 
 			}

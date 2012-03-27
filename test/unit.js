@@ -78,10 +78,91 @@ test( "error (callback not called)", function() {
 		},
 		complete: function() {
 			strictEqual( window.bob, 33, "script was executed" );
+			window.bob = false;
 			start();
 		}
 	});
 });
+
+if ( $.Deferred ) {
+
+	test( "promise - success", function() {
+		stop();
+		expect( 1 );
+		$.jsonp({
+			url: "http://gdata.youtube.com/feeds/api/users/julianaubourg?callback=?",
+			data: {
+				alt: "json-in-script"
+			},
+			complete: function() {
+				start();
+			}
+		}).done(function() {
+			ok( true, "Success" );
+		}).fail(function() {
+			ok( false, "Error" );
+		});
+	});
+
+	test( "promise - error (HTTP Code)", function() {
+		stop();
+		expect( 1 );
+		$.jsonp({
+			url: "http://gdata.youtube.com/feeds/api/users/hgfusyggbvbdbrfvurgbirhtiytjrhjsrhk66?callback=?",
+			data: {
+				alt: "json-in-script"
+			},
+			complete: function() {
+				start();
+			}
+		}).done(function() {
+			ok( false, "Success" );
+		}).fail(function() {
+			ok( true, "Error" );
+		});
+	});
+
+	test( "promise - error (Syntax Error)", function() {
+		stop();
+		expect( 2 );
+		var oldOnError = window.onerror;
+		window.onerror = function() {
+			ok( true, "Syntax Error Thrown" );
+			return false;
+		};
+		$.jsonp({
+			url: "data/syntax-error.js",
+			cache: true,
+			complete: function() {
+				window.onerror = oldOnError;
+				start();
+			}
+		}).done(function() {
+			ok( false, "Success" );
+		}).fail(function() {
+			ok( true, "Error" );
+		});
+	});
+
+	test( "promise - error (callback not called)", function() {
+		stop();
+		expect( 2 );
+		$.jsonp({
+			url: "data/no-callback.js",
+			cache: true,
+			complete: function() {
+				strictEqual( window.bob, 33, "script was executed" );
+				window.bob = false;
+				start();
+			}
+		}).done(function() {
+			ok( false, "Success" );
+		}).fail(function() {
+			ok( true, "Error" );
+		});
+	});
+
+}
 
 test( "stress test", function() {
 
