@@ -1,180 +1,73 @@
 module( "main", { teardown: moduleTeardown } );
 
-test( "success", function() {
-	stop();
-	expect( 1 );
-	$.jsonp({
-		url: "http://gdata.youtube.com/feeds/api/users/julianaubourg?callback=?",
-		data: {
-			alt: "json-in-script"
-		},
-		success: function() {
-			ok( true, "Success" );
-		},
-		error: function() {
-			ok( false, "Error" );
-		},
-		complete: function() {
-			start();
-		}
-	});
-});
+var hasDeferred = $.Deferred ? 1 : 0;
 
-test( "error (HTTP Code)", function() {
-	stop();
-	expect( 1 );
-	$.jsonp({
-		url: "http://gdata.youtube.com/feeds/api/users/hgfusyggbvbdbrfvurgbirhtiytjrhjsrhk66?callback=?",
-		data: {
-			alt: "json-in-script"
-		},
-		success: function() {
-			ok( false, "Success" );
-		},
-		error: function() {
-			ok( true, "Error" );
-		},
-		complete: function() {
-			start();
-		}
-	});
-});
-
-test( "error (Syntax Error)", function() {
-	stop();
-	expect( 2 );
-	var oldOnError = window.onerror;
-	window.onerror = function() {
-		ok( true, "Syntax Error Thrown" );
-		return false;
-	};
-	$.jsonp({
-		url: "data/syntax-error.js",
-		cache: true,
-		success: function() {
-			ok( false, "Success" );
-		},
-		error: function() {
-			ok( true, "Error" );
-		},
-		complete: function() {
-			window.onerror = oldOnError;
-			start();
-		}
-	});
-});
-
-test( "error (callback not called)", function() {
-	stop();
-	expect( 2 );
-	$.jsonp({
-		url: "data/no-callback.js",
-		cache: true,
-		success: function() {
-			ok( false, "Success" );
-		},
-		error: function() {
-			ok( true, "Error" );
-		},
-		complete: function() {
-			strictEqual( window.bob, 33, "script was executed" );
-			window.bob = false;
-			start();
-		}
-	});
-});
-
-if ( $.Deferred ) {
-
-	test( "promise - success", function() {
+function testJSONP( name, outcome, options ) {
+	test( name, function() {
 		stop();
-		expect( 2 );
-		$.jsonp({
-			url: "http://gdata.youtube.com/feeds/api/users/julianaubourg?callback=?",
-			data: {
-				alt: "json-in-script"
-			},
+		expect( ( options.expect || 0 ) + 1 + hasDeferred );
+		var xOptions = $.jsonp( $.extend( {}, options, {
 			success: function() {
-				ok( true, "Success (options)" );
-			},
-			complete: function() {
-				start();
-			}
-		}).done(function() {
-			ok( true, "Success" );
-		}).fail(function() {
-			ok( false, "Error" );
-		});
-	});
-
-	test( "promise - error (HTTP Code)", function() {
-		stop();
-		expect( 2 );
-		$.jsonp({
-			url: "http://gdata.youtube.com/feeds/api/users/hgfusyggbvbdbrfvurgbirhtiytjrhjsrhk66?callback=?",
-			data: {
-				alt: "json-in-script"
+				ok( outcome === "success", "Success" );
 			},
 			error: function() {
-				ok( true, "Error (options)" );
+				ok( outcome === "error", "Error" );
 			},
 			complete: function() {
+				if ( options.complete ) {
+					options.complete.call( this );
+				}
 				start();
 			}
-		}).done(function() {
-			ok( false, "Success" );
-		}).fail(function() {
-			ok( true, "Error" );
-		});
+		}) );
+		if ( hasDeferred ) {
+			xOptions.done(function() {
+				ok( outcome === "success", "Done" );
+			}).fail(function() {
+				ok( outcome === "error", "Fail" );
+			});
+		}
 	});
+}
 
-	test( "promise - error (Syntax Error)", function() {
-		stop();
-		expect( 3 );
-		var oldOnError = window.onerror;
+testJSONP( "success", "success", {
+	url: "http://gdata.youtube.com/feeds/api/users/julianaubourg?callback=?",
+	data: {
+		alt: "json-in-script"
+	}
+});
+
+testJSONP( "error (HTTP Code)", "error", {
+	url: "http://gdata.youtube.com/feeds/api/users/hgfusyggbvbdbrfvurgbirhtiytjrhjsrhk66?callback=?",
+	data: {
+		alt: "json-in-script"
+	}
+});
+
+testJSONP( "error (Syntax Error)", "error", {
+	expect: 1,
+	url: "data/syntax-error.js",
+	cache: true,
+	beforeSend: function() {
+		this.oldOnError = window.onerror;
 		window.onerror = function() {
 			ok( true, "Syntax Error Thrown" );
-			return false;
 		};
-		$.jsonp({
-			url: "data/syntax-error.js",
-			cache: true,
-			error: function() {
-				ok( true, "Error (options)" );
-			},
-			complete: function() {
-				window.onerror = oldOnError;
-				start();
-			}
-		}).done(function() {
-			ok( false, "Success" );
-		}).fail(function() {
-			ok( true, "Error" );
-		});
-	});
+	},
+	complete: function() {
+		window.onerror = this.oldOnError;
+	}
+});
 
-	test( "promise - error (callback not called)", function() {
-		stop();
-		expect( 3 );
-		$.jsonp({
-			url: "data/no-callback.js",
-			cache: true,
-			error: function() {
-				ok( true, "Error (options)" );
-			},
-			complete: function() {
-				strictEqual( window.bob, 33, "script was executed" );
-				window.bob = false;
-				start();
-			}
-		}).done(function() {
-			ok( false, "Success" );
-		}).fail(function() {
-			ok( true, "Error" );
-		});
-	});
-
-}
+testJSONP( "error (callback not called)", "error", {
+	expect: 1,
+	url: "data/no-callback.js",
+	cache: true,
+	complete: function() {
+		strictEqual( window.bob, 33, "script was executed" );
+		window.bob = false;
+	}
+});
 
 test( "stress test", function() {
 
