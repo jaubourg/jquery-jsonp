@@ -42,7 +42,12 @@ test( "error (HTTP Code)", function() {
 
 test( "error (Syntax Error)", function() {
 	stop();
-	expect( 1 );
+	expect( 2 );
+	var oldOnError = window.onerror;
+	window.onerror = function() {
+		ok( true, "Syntax Error Thrown" );
+		return false;
+	};
 	$.jsonp({
 		url: "data/syntax-error.js",
 		cache: true,
@@ -53,6 +58,7 @@ test( "error (Syntax Error)", function() {
 			ok( true, "Error" );
 		},
 		complete: function() {
+			window.onerror = oldOnError;
 			start();
 		}
 	});
