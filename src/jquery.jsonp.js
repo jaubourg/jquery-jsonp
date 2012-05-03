@@ -1,7 +1,7 @@
 /*
  * jQuery JSONP Core Plugin 2.3.0 (2012-03-27)
  *
- * http://code.google.com/p/jquery-jsonp/
+ * https://github.com/jaubourg/jquery-jsonp
  *
  * Copyright (c) 2012 Julian Aubourg
  *
