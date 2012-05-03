@@ -1,4 +1,4 @@
-## About
+# jQuery-JSONP
 
 jQuery-JSONP is a compact (1.8kB minified), yet feature-packed, alternative solution to jQuery's implementation of JSONP.
 
@@ -33,5 +33,5 @@ jQuery-JSONP has also been tested with jQuery 1.3.x up to 1.7.x
 
 ## Documentation
 
-* [API Documentation](/jaubourg/jquery-jsonp/wiki/API)
-* [Tips & Tricks](/jaubourg/jquery-jsonp/wiki/TipsAndTricks)
+* [API Documentation](/jaubourg/jquery-jsonp/blob/master/doc/API.md)
+* [Tips & Tricks](/jaubourg/jquery-jsonp/blob/master/doc/TipsAndTricks.md)
