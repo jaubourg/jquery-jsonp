@@ -257,7 +257,7 @@
 			// Re-declare cleanUp function
 			cleanUp = function( i ) {
 				timeoutTimer && clearTimeout( timeoutTimer );
-				script[ STR_ON_READY_STATE_CHANGE ] = script[ STR_ON_LOAD ] = script[ STR_ON_ERROR ]	= null;
+				script[ STR_ON_READY_STATE_CHANGE ] = script[ STR_ON_LOAD ] = script[ STR_ON_ERROR ] = null;
 				head[ STR_REMOVE_CHILD ]( script );
 				scriptAfter && head[ STR_REMOVE_CHILD ]( scriptAfter );
 			};
