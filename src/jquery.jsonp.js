@@ -1,5 +1,5 @@
 /*
- * jQuery JSONP Core Plugin 2.3.0 (2012-03-27)
+ * jQuery JSONP Core Plugin 2.3.1 (2012-05-16)
  *
  * https://github.com/jaubourg/jquery-jsonp
  *
@@ -60,8 +60,6 @@
 		Deferred = $.Deferred,
 		// Head element
 		head = $( "head" )[ 0 ] || document.documentElement,
-		// First child
-		firstChild = head.firstChild,
 		// Page cache
 		pageCache = {},
 		// Counter
@@ -123,6 +121,7 @@
 			supportOnreadystatechange,
 
 			// Request execution vars
+			firstChild,
 			script,
 			scriptAfter,
 			timeoutTimer;
@@ -263,7 +262,7 @@
 			};
 
 			// Append main script
-			head[ STR_INSERT_BEFORE ]( script , firstChild );
+			head[ STR_INSERT_BEFORE ]( script , ( firstChild = head.firstChild ) );
 
 			// Append trailing script if needed
 			scriptAfter && head[ STR_INSERT_BEFORE ]( scriptAfter , firstChild );
