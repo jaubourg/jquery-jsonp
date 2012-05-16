@@ -44,20 +44,22 @@ testJSONP( "error (HTTP Code)", "error", {
 	}
 });
 
-testJSONP( "error (Syntax Error)", "error", {
-	expect: 1,
-	url: "data/syntax-error.js",
-	cache: true,
-	beforeSend: function() {
-		this.oldOnError = window.onerror;
-		window.onerror = function() {
-			ok( true, "Syntax Error Thrown" );
-		};
-	},
-	complete: function() {
-		window.onerror = this.oldOnError;
-	}
-});
+if ( window.opera && window.opera.version() < 11.60 ) {
+	testJSONP( "error (Syntax Error)", "error", {
+		expect: window.opera ? 0 : 1,
+		url: "data/syntax-error.js",
+		cache: true,
+		beforeSend: function() {
+			this.oldOnError = window.onerror;
+			window.onerror = function() {
+				ok( true, "Syntax Error Thrown" );
+			};
+		},
+		complete: function() {
+			window.onerror = this.oldOnError;
+		}
+	});
+}
 
 testJSONP( "error (callback not called)", "error", {
 	expect: 1,
