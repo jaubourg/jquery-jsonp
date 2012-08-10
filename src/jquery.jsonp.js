@@ -22,11 +22,12 @@
 	}
 
 	// Call if defined
-	function callIfDefined( method , object , parameters , returnFlag ) {
+	function callIfDefined( method , object , parameters , throwError , returnFlag ) {
 		try {
 			returnFlag = method && method.apply( object.context || object , parameters );
 		} catch( _ ) {
 			returnFlag = !1;
+			if (throwError) throw _;
 		}
 		return returnFlag;
 	}
@@ -83,6 +84,7 @@
 			//success: undefined,
 			//timeout: 0,
 			//traditional: false,
+			//throwError: false,
 			url: location.href
 		},
 
@@ -108,6 +110,7 @@
 			url = xOptions.url,
 			data = xOptions.data,
 			timeout = xOptions.timeout,
+			throwError = xOptions.throwError,
 			pageCached,
 
 			// Abort/done flag
@@ -172,8 +175,8 @@
 				// Apply the data filter if provided
 				dataFilter && ( json = dataFilter.apply( xOptions , [ json ] ) );
 				// Call success then complete
-				callIfDefined( successCallback , xOptions , [ json , STR_SUCCESS, xOptions ] );
-				callIfDefined( completeCallback , xOptions , [ xOptions , STR_SUCCESS ] );
+				callIfDefined( successCallback , xOptions , [ json , STR_SUCCESS, xOptions ], throwError );
+				callIfDefined( completeCallback , xOptions , [ xOptions , STR_SUCCESS ], throwError );
 
 			}
 		}
@@ -188,8 +191,8 @@
 				// If pure error (not timeout), cache if needed
 				pageCacheFlag && type != STR_TIMEOUT && ( pageCache[ url ] = type );
 				// Call error then complete
-				callIfDefined( errorCallback , xOptions , [ xOptions , type ] );
-				callIfDefined( completeCallback , xOptions , [ xOptions , type ] );
+				callIfDefined( errorCallback , xOptions , [ xOptions , type ], throwError );
+				callIfDefined( completeCallback , xOptions , [ xOptions , type ], throwError );
 
 			}
 		}
