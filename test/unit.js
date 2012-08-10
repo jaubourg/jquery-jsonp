@@ -96,3 +96,26 @@ test( "stress test", function() {
 		});
 	}
 });
+
+
+test( "callback error", function() {
+		expect(2);
+
+		$.jsonp({
+			url: "http://gdata.youtube.com/feeds/api/users/julianaubourg?callback=?",
+			cache: true,
+			success: function() {
+				try {
+					return eval("var j = 7 + // syntax error");
+				}
+				catch(e) {
+					ok( true, "Syntax error thrown");
+				}
+			},
+			complete: function() {
+				start();
+			}
+		});
+		stop();
+		ok(true, "done"); // to resume tests
+});
