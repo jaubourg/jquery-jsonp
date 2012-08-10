@@ -153,5 +153,24 @@ test( "cache", function() {
 
 	stop();
 
+	url = "http://gdata.youtube.com/feeds/api/users/julianaubourg?_nx=y&callback=?";
+	urlpat = "http://gdata.youtube.com/feeds/api/users/julianaubourg?_nx=y&";
+	$.jsonp({
+		url: url,
+		cache: 'tag', // custom
+		cacheTag: 'f=85434',
+		complete: function() {
+			start();
+		}
+	});
+
+	var scr = findHead(urlpat);
+	ok( scr.length === 1);
+	ok( /f=[0-9]+$/.test(scr[0].src), "cache (tag) on");
+	ok( ! /_[0-9]+=$/.test(scr[0].src), "cache (tag) do not append random");
+	stop();
+
+	ok(true, "done"); // to resume tests
+
 });
 
