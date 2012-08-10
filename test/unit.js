@@ -96,3 +96,44 @@ test( "stress test", function() {
 		});
 	}
 });
+
+
+test( "callback error", function() {
+		expect(2);
+		$.jsonp({
+			url: "http://gdata.youtube.com/feeds/api/users/julianaubourg?callback=?",
+			cache: true,
+			success: function() {
+				return eval("var j = 7 + // syntax error");
+			},
+			error: function() {
+				ok( false, "error" );
+			},
+			complete: function() {
+				start();
+			}
+		});
+		stop();
+		ok( true, "Syntax error handled silently"); // code reached here means syntax error did not stop execution
+
+		$.jsonp({
+			url: "http://gdata.youtube.com/feeds/api/users/julianaubourg?callback=?",
+			cache: true,
+			success: function() {
+				try {
+					return eval("var j = 7 + // syntax error");
+				}
+				catch(e) {
+					ok( true, "Syntax error thrown");
+				}
+			},
+			error: function() {
+				ok( false, "error" );
+			},
+			complete: function() {
+				start();
+			},
+			throwError: true
+		});
+		stop();
+});
