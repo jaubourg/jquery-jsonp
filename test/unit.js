@@ -96,3 +96,62 @@ test( "stress test", function() {
 		});
 	}
 });
+
+
+test( "cache", function() {
+   function findHead(url1, url2) {
+     function rquote(str) {
+       return str.replace(/([.?*+^$[\]\\(){}|-])/g, "\\$1");
+     };
+     var t, obj,
+       reg1 = new RegExp(rquote(url1), "g"),
+       reg2 = url2 ? new RegExp(rquote(url2), "g") : null,
+       head = $( "head" )[ 0 ] || document.documentElement,
+       res = [],
+       children = head.children;
+     for (t=0;t<children.length; t++) {
+       obj = children[t];
+      
+       if (!obj)
+         continue;
+       if ( /_jqjsp[0-9]+/.test(obj.id) &&  (reg1.test(obj.src)  || (reg2 && reg2.test(obj.src)))) {
+         //console.log("FOUND "+t+" "+obj.src + " " + obj.id);
+         res.push(obj);
+       }
+     }
+		 return res;
+	}
+
+	var url = "http://gdata.youtube.com/feeds/api/users/julianaubourg?_nx=x&callback=?";
+		urlpat = "http://gdata.youtube.com/feeds/api/users/julianaubourg?_nx=x&";
+	$.jsonp({
+		url: url,
+    cache:false, // do append random
+		complete: function() {
+			start();
+		}
+	});
+	var scr = findHead(urlpat);
+	ok( scr.length === 1);
+	ok( /_[0-9]+=$/.test(scr[0].src), "cache (browser) on");
+	stop();
+
+
+	url = "http://gdata.youtube.com/feeds/api/users/julianaubourg?_nx=z&callback=?";
+  urlpat = "http://gdata.youtube.com/feeds/api/users/julianaubourg?_nx=z&";
+	$.jsonp({
+		url: url,
+    cache:true, // do not append random
+		complete: function() {
+			start();
+		}
+	});
+
+	var scr = findHead(urlpat);
+	ok( scr.length === 1);
+	ok( ! /_[0-9]+=$/.test(scr[0].src), "cache (browser) off");
+
+	stop();
+
+});
+
