@@ -44,7 +44,7 @@ testJSONP( "error (HTTP Code)", "error", {
 	}
 });
 
-if ( window.opera && window.opera.version() < 11.60 ) {
+if ( !window.opera || window.opera.version() < 11.60 ) {
 	testJSONP( "error (Syntax Error)", "error", {
 		expect: window.opera ? 0 : 1,
 		url: "data/syntax-error.js",
@@ -58,6 +58,31 @@ if ( window.opera && window.opera.version() < 11.60 ) {
 		complete: function() {
 			window.onerror = this.oldOnError;
 		}
+	});
+}
+
+if ( !window.opera ) {
+	test( "error (Exception)", function() {
+		stop();
+		expect( 2 );
+		$.jsonp({
+			url: "http://gdata.youtube.com/feeds/api/users/julianaubourg?callback=?",
+			beforeSend: function() {
+				var oldOnError = window.onerror;
+				window.onerror = function( flag ) {
+					ok( flag !== undefined, "Exception Thrown" );
+					window.onerror = oldOnError;
+					start();
+				};
+			},
+			success: function() {
+				ok( true, "success" );
+				throw "an exception";
+			},
+			complete: function() {
+				window.onerror();
+			}
+		});
 	});
 }
 
@@ -95,27 +120,4 @@ test( "stress test", function() {
 			}
 		});
 	}
-});
-
-
-test( "callback error", function() {
-		expect(2);
-
-		$.jsonp({
-			url: "http://gdata.youtube.com/feeds/api/users/julianaubourg?callback=?",
-			cache: true,
-			success: function() {
-				try {
-					return eval("var j = 7 + // syntax error");
-				}
-				catch(e) {
-					ok( true, "Syntax error thrown");
-				}
-			},
-			complete: function() {
-				start();
-			}
-		});
-		stop();
-		ok(true, "done"); // to resume tests
 });
