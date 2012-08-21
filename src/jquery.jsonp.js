@@ -87,7 +87,10 @@
 		},
 
 		// opera demands sniffing :/
-		opera = win.opera;
+		opera = win.opera,
+
+		// IE < 10
+		oldIE = !!$( "<div>" ).html( "<!--[if IE]><i><![endif]-->" ).find("i").length;
 
 	// ###################### MAIN FUNCTION ##
 	function jsonp( xOptions ) {
@@ -225,8 +228,7 @@
 			;
 
 			// Internet Explorer: event/htmlFor trick
-			if ( STR_ON_READY_STATE_CHANGE in script ) {
-
+			if ( oldIE ) {
 				script.htmlFor = script.id;
 				script.event = STR_ON_CLICK;
 			}
