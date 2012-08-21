@@ -125,7 +125,7 @@ Lifetime of this cache is page-based which means it gets erased at each page rel
 
 #### success - `function` (`undefined`)
 
-A function to be called if the request succeeds. The function gets passed three arguments: The JSON object returned from the server, a string describing the status (always `"success"`) and the `xOptions` object.
+A function to be called if the request succeeds. The function gets passed three arguments: The JSON object returned from the server, a string describing the status (always `"success"`) and, *_as of version 2.4.0_* the `xOptions` object.
 
 ```js
 function (json, textStatus, xOptions) {
