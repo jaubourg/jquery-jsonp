@@ -1,6 +1,6 @@
 module( "main", { teardown: moduleTeardown } );
 
-var hasDeferred = $.Deferred ? 1 : 0;
+var hasDeferred = !!$.Deferred;
 
 function testJSONP( name, outcome, options ) {
 	test( name, function() {
