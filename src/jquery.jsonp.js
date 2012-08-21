@@ -23,7 +23,7 @@
 
 	// Call if defined
 	function callIfDefined( method , object , parameters ) {
-		return method && method.apply && method.apply( object.context || object , parameters );
+		return method && method.apply( object.context || object , parameters );
 	}
 
 	// Give joining character given url
