@@ -22,13 +22,8 @@
 	}
 
 	// Call if defined
-	function callIfDefined( method , object , parameters , returnFlag ) {
-		try {
-			returnFlag = method && method.apply( object.context || object , parameters );
-		} catch( _ ) {
-			returnFlag = !1;
-		}
-		return returnFlag;
+	function callIfDefined( method , object , parameters ) {
+		return method && method.apply && method.apply( object.context || object , parameters );
 	}
 
 	// Give joining character given url
