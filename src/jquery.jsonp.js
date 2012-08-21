@@ -144,7 +144,7 @@
 		};
 
 		// Call beforeSend if provided (early abort if false returned)
-		if ( callIfDefined( xOptions.beforeSend, xOptions , [ xOptions ] ) === !1 || done ) {
+		if ( callIfDefined( xOptions.beforeSend , xOptions , [ xOptions ] ) === !1 || done ) {
 			return xOptions;
 		}
 
