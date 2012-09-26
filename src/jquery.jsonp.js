@@ -145,7 +145,7 @@
 
 		// Control entries
 		url = url || STR_EMPTY;
-		data = data ? ( (typeof data) == "string" ? data : $.param( data , xOptions.traditional ) ) : STR_EMPTY;
+		data = data ? ( (typeof data) == "string" ? data : $.param( $.extend(!xOptions.traditional, {}, data ), xOptions.traditional ) ) : STR_EMPTY;
 
 		// Build final url
 		url += data ? ( qMarkOrAmp( url ) + data ) : STR_EMPTY;
