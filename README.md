@@ -37,5 +37,5 @@ jQuery-JSONP has also been tested with jQuery 1.3.x up to 1.7.x
 
 ## Documentation
 
-* [API Documentation](/jaubourg/jquery-jsonp/blob/master/doc/API.md)
-* [Tips & Tricks](/jaubourg/jquery-jsonp/blob/master/doc/TipsAndTricks.md)
+* [API Documentation](https://github.com/jaubourg/jquery-jsonp/blob/master/doc/API.md)
+* [Tips & Tricks](https://github.com/jaubourg/jquery-jsonp/blob/master/doc/TipsAndTricks.md)
