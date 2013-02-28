@@ -4,11 +4,11 @@ jQuery-JSONP is a compact (1.8kB minified), yet feature-packed, alternative solu
 
 ## Licensing
 
-jQuery-JSONP is released under the [MIT license](/jaubourg/jquery-jsonp/blob/master/MIT-LICENSE.txt).
+jQuery-JSONP is released under the [MIT license](https://github.com/jaubourg/jquery-jsonp/blob/master/MIT-LICENSE.txt).
 
 ## Download
 
-You can download jQuery-JSONP [here](/jaubourg/jquery-jsonp/downloads) (full text and minified versions available).
+You can download jQuery-JSONP [here](https://github.com/jaubourg/jquery-jsonp/downloads) (full text and minified versions available).
 
 ## Features
 
