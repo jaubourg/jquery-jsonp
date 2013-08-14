@@ -19,7 +19,7 @@
     /* Define using browser globals otherwise
      * Prevent multiple instantiations if the script is loaded twice
      */
-    else if ( jQuery && !jQuery.fn.jsonp )
+    else if ( jQuery && !jQuery.jsonp )
     {
         factory( jQuery );
     }
@@ -296,6 +296,6 @@
 	};
 
 	// ###################### INSTALL in jQuery ##
-	$.fn.jsonp = jsonp;
+	$.jsonp = jsonp;
 
 }));
