@@ -8,6 +8,22 @@
  * This document is licensed as free software under the terms of the
  * MIT License: http://www.opensource.org/licenses/mit-license.php
  */
+(function( factory ) {
+    "use strict";
+
+    // Define as an AMD module if possible
+    if ( typeof define === 'function' && define.amd )
+    {
+        define( ['jquery'], factory );
+    }
+    /* Define using browser globals otherwise
+     * Prevent multiple instantiations if the script is loaded twice
+     */
+    else if ( jQuery && !jQuery.fn.jsonp )
+    {
+        factory( jQuery );
+    }
+}
 ( function( $ ) {
 
 	// ###################### UTILITIES ##
@@ -280,6 +296,6 @@
 	};
 
 	// ###################### INSTALL in jQuery ##
-	$.jsonp = jsonp;
+	$.fn.jsonp = jsonp;
 
-} )( jQuery );
+}));
