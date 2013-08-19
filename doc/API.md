@@ -67,7 +67,7 @@ Forces the request to be interpreted as a certain charset. Only needed for chars
 
 #### complete - `function` (`undefined`)
 
-A function to be called when the request finishes (after success and error callbacks are executed). The function gets passed two arguments: The `xOptions` object and a string describing the type of completion of the request (`"success"`, `"error"` or `"timeout"`).
+A function to be called when the request finishes or is aborted (after success and error callbacks are executed). The function gets passed two arguments: The `xOptions` object and a string describing the type of completion of the request (`"success"`, `"error"`, `"timeout"`, or `"abort"`).
 
 ```js
 function (xOptions, textStatus) {
