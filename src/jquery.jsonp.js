@@ -136,6 +136,7 @@
 		// Create the abort method
 		xOptions.abort = function() {
 			!( done++ ) && cleanUp();
+			callIfDefined( completeCallback , xOptions , [ xOptions , "abort" ] );
 		};
 
 		// Call beforeSend if provided (early abort if false returned)
