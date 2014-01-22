@@ -290,5 +290,6 @@
 
 	// ###################### INSTALL in jQuery ##
 	$.jsonp = jsonp;
+        return jsonp;
 
 }));
