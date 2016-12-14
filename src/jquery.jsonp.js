@@ -36,6 +36,7 @@
 		STR_CHARSET = "charset",
 		STR_EMPTY = "",
 		STR_ERROR = "error",
+		STR_ABORTED = "aborted",
 		STR_INSERT_BEFORE = "insertBefore",
 		STR_JQUERY_JSONP = "_jqjsp",
 		STR_ON = "on",
@@ -135,7 +136,7 @@
 
 		// Create the abort method
 		xOptions.abort = function() {
-			!( done++ ) && cleanUp();
+			notifyError( STR_ABORTED );
 		};
 
 		// Call beforeSend if provided (early abort if false returned)
@@ -184,7 +185,7 @@
 				// Clean up
 				cleanUp();
 				// If pure error (not timeout), cache if needed
-				pageCacheFlag && type != STR_TIMEOUT && ( pageCache[ url ] = type );
+				pageCacheFlag && type == STR_ERROR && ( pageCache[ url ] = type );
 				// Call error then complete
 				callIfDefined( errorCallback , xOptions , [ xOptions , type ] );
 				callIfDefined( completeCallback , xOptions , [ xOptions , type ] );
