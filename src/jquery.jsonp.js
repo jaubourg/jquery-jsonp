@@ -77,6 +77,7 @@
 			//pageCache: false,
 			//success: undefined,
 			//timeout: 0,
+			//cacheTag: undefined
 			//traditional: false,
 			url: location.href
 		},
@@ -106,6 +107,7 @@
 			url = xOptions.url,
 			data = xOptions.data,
 			timeout = xOptions.timeout,
+			cacheTag = xOptions.cacheTag,
 			pageCached,
 
 			// Abort/done flag
@@ -156,6 +158,8 @@
 		// Add anticache parameter if needed
 		!cacheFlag && !pageCacheFlag && ( url += qMarkOrAmp( url ) + "_" + ( new Date() ).getTime() + "=" );
 
+		cacheFlag === "tag" && !pageCacheFlag && cacheTag && ( url += qMarkOrAmp( url ) + cacheTag );
+		
 		// Replace last ? by callback parameter
 		url = url.replace( /=\?(&|$)/ , "=" + successCallbackName + "$1" );
 
