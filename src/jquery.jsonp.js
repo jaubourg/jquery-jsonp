@@ -28,7 +28,8 @@
 
 	// Give joining character given url
 	function qMarkOrAmp( url ) {
-		return /\?/ .test( url ) ? "&" : "?";
+		var pattern = new RegExp("\\?");
+		return pattern.test( url ) ? "&" : "?";
 	}
 
 	var // String constants (for better minification)
@@ -157,7 +158,8 @@
 		!cacheFlag && !pageCacheFlag && ( url += qMarkOrAmp( url ) + "_" + ( new Date() ).getTime() + "=" );
 
 		// Replace last ? by callback parameter
-		url = url.replace( /=\?(&|$)/ , "=" + successCallbackName + "$1" );
+		var replaceQMark = new RegExp("=\\?(&|$)");
+		url = url.replace( replaceQMark , "=" + successCallbackName + "$1" );
 
 		// Success notifier
 		function notifySuccess( json ) {
@@ -232,7 +234,8 @@
 			script[ STR_ON_LOAD ] = script[ STR_ON_ERROR ] = script[ STR_ON_READY_STATE_CHANGE ] = function ( result ) {
 
 				// Test readyState if it exists
-				if ( !script[ STR_READY_STATE ] || !/i/.test( script[ STR_READY_STATE ] ) ) {
+				var iTest = new RegExp("i");
+				if ( !script[ STR_READY_STATE ] || !iTest.test( script[ STR_READY_STATE ] ) ) {
 
 					try {
 
