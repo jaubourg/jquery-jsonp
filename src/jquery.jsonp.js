@@ -154,7 +154,7 @@
 		callbackParameter && ( url += qMarkOrAmp( url ) + encodeURIComponent( callbackParameter ) + "=?" );
 
 		// Add anticache parameter if needed
-		!cacheFlag && !pageCacheFlag && ( url += qMarkOrAmp( url ) + "_" + ( new Date() ).getTime() + "=" );
+		!cacheFlag && !pageCacheFlag && ( url += qMarkOrAmp( url ) + "_=" + ( new Date() ).getTime() );
 
 		// Replace last ? by callback parameter
 		url = url.replace( /=\?(&|$)/ , "=" + successCallbackName + "$1" );
