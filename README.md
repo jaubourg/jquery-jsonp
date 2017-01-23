@@ -1,5 +1,7 @@
 # jQuery-JSONP
 
+[![CDNJS](https://img.shields.io/cdnjs/v/jQuery-JSONP.svg)](https://cdnjs.com/libraries/jQuery-JSONP)
+
 jQuery-JSONP is a compact (1.8kB minified), yet feature-packed, alternative solution to jQuery's implementation of JSONP.
 
 ## Licensing
