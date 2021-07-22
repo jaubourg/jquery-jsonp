@@ -199,6 +199,9 @@
 
 		} else {
 
+			// reset lastValue (from stale aborts)
+			lastValue = void 0;
+      
 			// Install the generic callback
 			// (BEWARE: global namespace pollution ahoy)
 			win[ successCallbackName ] = genericCallback;
